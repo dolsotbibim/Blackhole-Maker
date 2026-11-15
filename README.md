@@ -1,21 +1,122 @@
 # Blackhole Maker
 
-> 2개월 방학 프로젝트
-
-[![Steam](https://img.shields.io/badge/Steam-%EC%83%81%EC%A0%90%20%ED%8E%98%EC%9D%B4%EC%A7%80-1b2838?logo=steam)](https://store.steampowered.com/app/4299820/Blackhole_Maker/)
+[![Steam](https://img.shields.io/badge/Steam-Store-1b2838?logo=steam)](https://store.steampowered.com/app/4299820/Blackhole_Maker/)
 [![Unity](https://img.shields.io/badge/Unity-6000.3.2f1-black?logo=unity)](https://unity.com/)
 
 [![Blackhole Maker](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4299820/1ee239385ca506d5beca8264f0823de5c6b1f484/header.jpg)](https://store.steampowered.com/app/4299820/Blackhole_Maker/)
 
-수박 머지 게임에서 아이디어를 얻어 돌부터 시작하여 블랙홀까지 만드는 게임입니다.
+**[English](#english)** | **[한국어](#korean)**
 
-| 게임 루프 초반 | 게임 루프 후반 |
+| Early game | Late game |
 | :---: | :---: |
-| ![타이밍 소환](docs/images/timing.gif) | ![피버 모드](docs/images/fever.gif) |
+| ![Timing spawn](docs/images/timing.gif) | ![Fever mode](docs/images/fever.gif) |
 
 <br>
 
-## 1인 개발 범위
+<a id="english"></a>
+
+## English
+
+> A 2-month vacation project
+
+Inspired by Suika Game, this is a merge game where you start from small stones and grow them all the way into a black hole.
+
+### Solo Development Scope
+
+| Area | Details |
+| --- | --- |
+| Design | Core loop, growth curve, balancing 36 augments, fever and combo systems, tutorial |
+| Programming | All gameplay, procedural timing bar, physics stabilization, pooling, save/load, sound |
+| Visual effects | 29 custom Shader Graph shaders, particle-based UI effects |
+| Release | Steam store page and build distribution (released on January 26, 2026) |
+
+<br>
+
+### Technical Implementation
+
+#### 1. Procedural Timing Bar Based on the Poisson Distribution
+
+The core input is "stop the moving hand on a success zone." Each round, success zones (pulses) are generated procedurally, and the more pulses overlap, the higher the grade (more objects spawned).
+
+- Each pulse is treated as an independent random event (arrival), and the number of pulses in a round is drawn from a Poisson distribution.
+- Because the Poisson distribution is defined by a single parameter, the mean arrival count λ, stat upgrades from augments or fever and overall balancing can all be handled through that one parameter.
+- Pulse counts are drawn with **Poisson random sampling (Knuth's algorithm)**, producing a different layout every round.
+
+#### 2. Resolving Collision Event Races to Prevent Duplicate Merges
+
+When two objects collide, the collision callback fires on both of them, which would create two higher-level objects.
+
+1. Only the object with the lower y-position merges; if the y-positions are equal, the one with the smaller `InstanceID` does.
+2. As soon as the merging side is decided, both objects set `PreventingChange`, so neither can merge again with a third object.
+
+#### 3. 36 Augments (Objets) and Reflection-Based Saving
+
+- Every augment inherits from the abstract `Objet` class (`Init` / `OnEquip`). Adding a new augment only takes one new class registered in the list.
+- Augments come in three families (Spawn / Cost / Fever) and can be upgraded up to level 5. The shop offers one augment from the same family as the last pick and one from a different family, so players choose every time whether to continue their build or switch.
+- Saves store **only the type names and levels of equipped augments**, not stat values.
+- On load, components are found with `Type.GetType`, and `OnEquip` is re-run once per level to rebuild the stats. Because of this, existing saves pick up new values when balance numbers change in a patch.
+- The equipped list is an `ObservableCollection`, so saving and the info UI update automatically whenever it changes.
+- The two choices currently shown in the shop are also saved, so restarting the game cannot be used to reroll them.
+
+#### 4. Controlling Scale Explosion
+
+Objects grow 1.75× per level, so a level 27 object is about 2,000,000 times larger than a level 1 object. Scaling that directly in one scene would break both physics and the camera.
+
+- Up to flask level 10 the flask itself grows; after that, the world root shrinks by 0.875× instead. To the player everything keeps getting bigger, while the actual coordinate range stays constant.
+- Object mass is set to `(scale + 1)³`, proportional to volume, so large celestial bodies are not pushed around by small fragments.
+
+<br>
+
+### Troubleshooting
+
+Fixes for awkward behavior and tweaks made to improve gameplay.
+
+| Problem | Fix |
+| --- | --- |
+| Objects merged in a runaway chain the moment they touched after spawning | A protection window after spawning during which merging and decomposing are blocked; its length is randomized to spread out simultaneous merges |
+| Falling looked slow once the flask grew larger | Extra gravity proportional to the flask scale during the protection window |
+| Stopped objects piled up at the edges and never merged | When velocity is near zero, a force proportional to size pushes them toward the center |
+| Dozens of small merge sounds overlapping became noisy | Volume is attenuated relative to the current max level, and pitch is randomized |
+| Pulses that differed by only a few pixels made the UI look cluttered | Run-length encoding with a tolerance absorbs tiny segments into the previous one so the bar is not split into fragments |
+
+<br>
+
+### Project Structure
+
+```
+Assets/
+├─ 01.Object/   Merge objects, black hole, mesh/material data (ScriptableObject)
+├─ 02.Plask/    Flask, lid, floor
+├─ 04.System/   Spawner, gauges, augment manager, save, input, camera
+├─ 05.UI/       Timing bar, gauge effects, main/ending UI
+├─ 06.Objet/    36 augment definitions
+├─ 07.Sound/    Sound manager and sound effects
+├─ Editor/      Custom inspector for mesh/material data
+└─ Modules/     Generic object pool module
+```
+
+<br>
+
+### Tech Stack & How to Play
+
+**Unity 6 (6000.3.2f1)** · C# · URP · Shader Graph · New Input System · DOTween · Redcode.Pools · Unity UI Extensions
+
+- **Play**: [Steam store page](https://store.steampowered.com/app/4299820/Blackhole_Maker/)
+- **Controls**: `Space` to spawn · double left-click to decompose · left-click drag to shake the flask · right-click drag to rotate
+
+<br>
+
+---
+
+<a id="korean"></a>
+
+## 한국어
+
+> 2개월 방학 프로젝트
+
+수박 머지 게임에서 아이디어를 얻어 돌부터 시작하여 블랙홀까지 만드는 게임입니다.
+
+### 1인 개발 범위
 
 | 영역 | 내용 |
 | --- | --- |
@@ -26,23 +127,23 @@
 
 <br>
 
-## 기술 구현
+### 기술 구현
 
-### 1. 푸아송 분포 기반 절차적 타이밍 바
+#### 1. 푸아송 분포 기반 절차적 타이밍 바
 
 핵심 입력은 "움직이는 핸드를 성공 구간에 멈추기"입니다. 매 라운드 성공 구간(펄스)을 절차적으로 생성하고, 펄스가 겹칠수록 높은 등급(더 많은 소환) 이 되도록 설계했습니다.
 - 펄스의 등장을 서로 독립적인 무작위 사건(arrival)으로 보고, 한 라운드에 나타나는 개수를 푸아송 분포로 뽑습니다.
 - 푸아송 분포는 평균 등장 횟수 λ 하나로 정의되므로, 증강이나 피버 같은 능력치 상승과 밸런스 조절을 파라미터 하나로 처리할 수 있습니다.
 - **푸아송 난수(Knuth 알고리즘)** 로 펄스 개수를 뽑아 매 라운드 다른 배치를 만듭니다.
 
-### 2. 충돌 이벤트 경합 해결 — 머지 중복 방지
+#### 2. 충돌 이벤트 경합 해결, 머지 중복 방지
 
 두 오브젝트가 충돌하면 충돌 콜백이 양쪽 모두에서 호출되어 상위 오브젝트가 2개 생성됩니다.
 
 1. y좌표가 낮은 쪽, 같으면 `InstanceID`가 작은 쪽만 머지를 처리합니다.
 2. 머지를 담당할 쪽이 정해지는 순간 두 오브젝트 모두 `PreventingChange`를 켜서 제3의 오브젝트와 다시 머지되는 것을 막습니다.
 
-### 3. 증강(Objet) 36종과 리플렉션 기반 저장
+#### 3. 증강(Objet) 36종과 리플렉션 기반 저장
 
 - 모든 증강은 `Objet` 추상 클래스(`Init` / `OnEquip`)를 상속합니다. 새 증강은 클래스 하나를 추가하고 목록에 등록하면 됩니다.
 - 증강은 Spawn / Cost / Fever 세 계열이고 최대 5레벨까지 강화됩니다. 상점은 직전에 고른 것과 같은 계열 1개 + 다른 계열 1개를 제시해, 빌드를 이어갈지 갈아탈지를 매번 선택하게 합니다.
@@ -51,7 +152,7 @@
 - 장착 목록은 `ObservableCollection`으로 관리해, 변경될 때마다 저장과 정보 UI 갱신이 자동으로 이뤄집니다.
 - 상점에 떠 있는 선택지 2개도 저장하여 게임을 껐다 켜서 선택지를 다시 뽑는 것을 막았습니다.
 
-### 4. 28단계 성장을 버티는 스케일 전략
+#### 4. 스케일 폭발 제어
 
 오브젝트 크기는 레벨마다 1.75배씩 커져, 1레벨과 27레벨의 차이가 약 200만 배입니다. 한 씬에서 이를 그대로 키우면 물리와 카메라가 버티지 못합니다.
 
@@ -60,7 +161,7 @@
 
 <br>
 
-## 트러블슈팅
+### 트러블슈팅
 
 어색하게 동작하는 것을 고치거나 게임성 개선을 위해 적용한 것들입니다.
 
@@ -74,7 +175,7 @@
 
 <br>
 
-## 시스템 구조
+### 시스템 구조
 
 ```
 Assets/
@@ -90,7 +191,7 @@ Assets/
 
 <br>
 
-## 기술 스택 & 실행
+### 기술 스택 & 실행
 
 **Unity 6 (6000.3.2f1)** · C# · URP · Shader Graph · New Input System · DOTween · Redcode.Pools · Unity UI Extensions
 
