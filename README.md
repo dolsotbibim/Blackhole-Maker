@@ -9,7 +9,7 @@
 
 | Early game | Late game | Augment shop |
 | :---: | :---: | :---: |
-| ![Timing spawn](docs/images/timing.gif) | ![Fever mode](docs/images/fever.gif) | <img alt="Augment shop" src="https://github.com/user-attachments/assets/f8ba6a8a-f71f-4d71-943d-2198a3bbae18" /> |
+| <img alt="Timing spawn" src="docs/images/timing.gif" width="300" /> | <img alt="Fever mode" src="docs/images/fever.gif" width="300" /> | <img alt="Augment shop" src="https://github.com/user-attachments/assets/f8ba6a8a-f71f-4d71-943d-2198a3bbae18" width="300" /> |
 
 <br>
 
