@@ -4,14 +4,14 @@ using UnityEngine.InputSystem;
 
 public class CameraLookController : MonoBehaviour
 {
-    [Header("Ä«¸Ş¶ó ¼³Á¤")]
-    [Tooltip("Ä«¸Ş¶ó È¸Àü ¼Óµµ (¹Î°¨µµ)")]
+    [Header("ì¹´ë©”ë¼ ì„¤ì •")]
+    [Tooltip("ì¹´ë©”ë¼ íšŒì „ ì†ë„ (ë¯¼ê°ë„)")]
     public float sensitivity = 1.0f;
     public static CameraLookController instance;
     private Vector3 rotationCenter = Vector3.zero;
 
-    private Vector2 lookDelta; // ¸¶¿ì½º ÀÌµ¿(µ¨Å¸) °ª
-    public bool isRightClicking = false; // ¿ìÅ¬¸¯ »óÅÂ ÇÃ·¡±×
+    private Vector2 lookDelta; // ë§ˆìš°ìŠ¤ ì´ë™(ë¸íƒ€) ê°’
+    public bool isRightClicking = false; // ìš°í´ë¦­ ìƒíƒœ í”Œë˜ê·¸
     private Camera cam;
 
     private float initialScale;
@@ -27,13 +27,13 @@ public class CameraLookController : MonoBehaviour
     {
         cam = GetComponent<Camera>();
         initialWorldRotation = transform.rotation;
-        // 1. ÃÊ±â »óÅÂ ÀúÀå
+        // 1. ì´ˆê¸° ìƒíƒœ ì €ì¥
         initialScale = Flask.Instance.transform.localScale.x;
 
-        // Ä«¸Ş¶ó¿Í ¿ÀºêÁ§Æ® »çÀÌÀÇ º¤ÅÍ¿Í °Å¸® °è»ê
+        // ì¹´ë©”ë¼ì™€ ì˜¤ë¸Œì íŠ¸ ì‚¬ì´ì˜ ë²¡í„°ì™€ ê±°ë¦¬ ê³„ì‚°
         Vector3 diff = transform.position - Flask.Instance.transform.position;
         initialDistance = diff.magnitude;
-        initialDirection = diff.normalized; // ¹æÇâ À¯Áö¿ë
+        initialDirection = diff.normalized; // ë°©í–¥ ìœ ì§€ìš©
     }
 
     void Update()
@@ -82,14 +82,14 @@ public class CameraLookController : MonoBehaviour
 
         if (Flask.Instance == null) return;
         if (isShaking) return;
-        // 2. ÇöÀç ½ºÄÉÀÏ ºñÀ² °è»ê
+        // 2. í˜„ì¬ ìŠ¤ì¼€ì¼ ë¹„ìœ¨ ê³„ì‚°
         float currentScale = Flask.Instance.transform.localScale.x;
         float scaleRatio = currentScale / initialScale;
 
-        // 3. ºñÀ²¿¡ ¸ÂÃç »õ·Î¿î °Å¸® °è»ê
+        // 3. ë¹„ìœ¨ì— ë§ì¶° ìƒˆë¡œìš´ ê±°ë¦¬ ê³„ì‚°
         float newDistance = initialDistance * scaleRatio;
 
-        // 4. Ä«¸Ş¶ó À§Ä¡ °»½Å (¿ÀºêÁ§Æ®ÀÇ ÇöÀç À§Ä¡ + ÃÊ±â ¹æÇâ * »õ·Î¿î °Å¸®)
+        // 4. ì¹´ë©”ë¼ ìœ„ì¹˜ ê°±ì‹  (ì˜¤ë¸Œì íŠ¸ì˜ í˜„ì¬ ìœ„ì¹˜ + ì´ˆê¸° ë°©í–¥ * ìƒˆë¡œìš´ ê±°ë¦¬)
         transform.position = Vector3.Lerp(transform.position, new Vector3(0, 0.5f, 0) + (initialDirection * newDistance), 0.1f);
 
     }

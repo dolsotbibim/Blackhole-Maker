@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 public class SpawnPanel : MonoBehaviour
@@ -165,7 +164,7 @@ public class SpawnPanel : MonoBehaviour
     {
         float time = 0;
         float currentX = 0;
-        float oldTotalTime = Spawner.Instance.RoundTripTime; // ÃÊ±â totalTime ÀúÀå
+        float oldTotalTime = Spawner.Instance.RoundTripTime; // ì´ˆê¸° totalTime ì €ìž¥
 
         while (true)
         {
@@ -283,17 +282,17 @@ public class SpawnPanel : MonoBehaviour
         SpawnPanelRoutine = StartCoroutine(MoveHand());
     }
 
-    // UpdateSuccessRange´Â ÀÌÁ¦ ÄÚ·çÆ¾À» ½ÃÀÛ/Áß´ÜÀ¸·Î º¯°æ
+    // UpdateSuccessRangeëŠ” ì´ì œ ì½”ë£¨í‹´ì„ ì‹œìž‘/ì¤‘ë‹¨ìœ¼ë¡œ ë³€ê²½
     void UpdateSuccessRange(float Rambda)
     {
-        // ÀÌÀü ÄÚ·çÆ¾ÀÌ µ¿ÀÛ ÁßÀÌ¸é Á¾·á
+        // ì´ì „ ì½”ë£¨í‹´ì´ ë™ìž‘ ì¤‘ì´ë©´ ì¢…ë£Œ
         if (SuccessRangeRoutine != null)
         {
             StopCoroutine(SuccessRangeRoutine);
             SuccessRangeRoutine = null;
         }
 
-        // ÀÌº¥Æ®º° ÄÚ·çÆ¾µµ Áß´Ü
+        // ì´ë²¤íŠ¸ë³„ ì½”ë£¨í‹´ë„ ì¤‘ë‹¨
         if (EventCoroutines != null)
         {
             foreach (var c in EventCoroutines)
@@ -556,7 +555,7 @@ public class SpawnPanel : MonoBehaviour
     public int boostAmount = 1;
     public int MaxNesting = 5;
     
-    // °¢ ÀÌº¥Æ®º° ¹Ý°æ È®Àå ÄÚ·çÆ¾ (µ¶¸³ ½ÇÇà, radii¿Í finished´Â ¿ÜºÎ¿¡¼­ Àü´Þ)
+    // ê° ì´ë²¤íŠ¸ë³„ ë°˜ê²½ í™•ìž¥ ì½”ë£¨í‹´ (ë…ë¦½ ì‹¤í–‰, radiiì™€ finishedëŠ” ì™¸ë¶€ì—ì„œ ì „ë‹¬)
     private IEnumerator ExpandEventCoroutine(int index, float startDelay, float targetRadius, float duration, float[] radii, bool[] finished, int pos, int multiplier)
     {
         if (startDelay > 0f) yield return new WaitForSeconds(startDelay);

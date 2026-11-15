@@ -12,7 +12,7 @@ public class BlackHole : MonoBehaviour
     public Transform second;
     public RectTransform[] uiElements;
     public static BlackHole instance;
-    private float growthStep = 1f; // Èí¼ö ½Ã¸¶´Ù Ä¿Áú ¾ç
+    private float growthStep = 1f; // í¡ìˆ˜ ì‹œë§ˆë‹¤ ì»¤ì§ˆ ì–‘
     private void Awake()
     {
         instance = this;
@@ -20,7 +20,7 @@ public class BlackHole : MonoBehaviour
     }
     private void OnEnable()
     {
-        // ±âÁ¸ ¸®½ºÆ® ÃÊ±âÈ­
+        // ê¸°ì¡´ ë¦¬ìŠ¤íŠ¸ ì´ˆê¸°í™”
         first.Clear();
         CameraLookController.instance.isShaking = true;
         SoundManager.Instance.PlaySFX(18, 0.8f, false);
@@ -44,7 +44,7 @@ public class BlackHole : MonoBehaviour
         mainSeq.AppendCallback(() => StartPersistentShake(0.1f, 0.1f));
         mainSeq.AppendInterval(1f);
 
-        // 1´Ü°è: ¾àÇÑ Èçµé¸²
+        // 1ë‹¨ê³„: ì•½í•œ í”ë“¤ë¦¼
         foreach (var obj in first)
         {
             mainSeq.Join(obj.DOMove(target.position, 1f).SetEase(Ease.InQuad));
@@ -53,14 +53,14 @@ public class BlackHole : MonoBehaviour
 
         mainSeq.AppendInterval(0.5f);
 
-        // 2´Ü°è: Áß°£ Èçµé¸²
+        // 2ë‹¨ê³„: ì¤‘ê°„ í”ë“¤ë¦¼
         mainSeq.AppendCallback(() => StartPersistentShake(0.3f, 0.3f));
         mainSeq.Append(second.DOMove(target.position, 1f).SetEase(Ease.InQuad));
         mainSeq.Join(second.DOScale(Vector3.zero, 1f).OnComplete(() => GrowTarget(0.5f)));
 
         mainSeq.AppendInterval(0.3f);
 
-        // 3´Ü°è: °­ÇÑ Èçµé¸² + UI µ¿½Ã ½ÃÀÛ/Áö¼Ó½Ã°£ Â÷ÀÌ
+        // 3ë‹¨ê³„: ê°•í•œ í”ë“¤ë¦¼ + UI ë™ì‹œ ì‹œì‘/ì§€ì†ì‹œê°„ ì°¨ì´
         mainSeq.AppendCallback(() => StartPersistentShake(0.5f, 0.6f));
         float startTime = mainSeq.Duration();
         for (int i = 0; i < uiElements.Length; i++)
@@ -75,9 +75,9 @@ public class BlackHole : MonoBehaviour
                 .OnComplete(() => GrowTarget(0.5f)));
         }
 
-        // ¸¶Áö¸·: Ä«¸Ş¶ó Orthographic Size Ãà¼Ò ¿¬Ãâ
+        // ë§ˆì§€ë§‰: ì¹´ë©”ë¼ Orthographic Size ì¶•ì†Œ ì—°ì¶œ
 
-        // ¸ğµç ¿¬Ãâ Á¾·á ÈÄ Èçµé¸² Á¤Áö
+        // ëª¨ë“  ì—°ì¶œ ì¢…ë£Œ í›„ í”ë“¤ë¦¼ ì •ì§€
         mainSeq.OnComplete(() =>
         {
             StopShaking();
@@ -89,7 +89,7 @@ public class BlackHole : MonoBehaviour
     public Canvas EndingCanvas;
     private void GrowTarget(float value)
     {
-        // Å¸°Ù ¿ÀºêÁ§Æ®ÀÇ ½ºÄÉÀÏÀ» Á¶±İ¾¿ Å°¿ò
+        // íƒ€ê²Ÿ ì˜¤ë¸Œì íŠ¸ì˜ ìŠ¤ì¼€ì¼ì„ ì¡°ê¸ˆì”© í‚¤ì›€
         target.DOScale(target.localScale + new Vector3(growthStep, growthStep, growthStep) * value, 0.1f);
     }
 

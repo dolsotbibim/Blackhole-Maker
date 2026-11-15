@@ -50,9 +50,6 @@ public class Flask : MonoBehaviour
         UIManager.Instance.SkyboxMaterial.SetColor("_Tint", baseColor);
     }
 
-    private void Update()
-    {
-    }
     public float colorValue = 0;
     int count = 0;
     public void UpdateScale(float value)

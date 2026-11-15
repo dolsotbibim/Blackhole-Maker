@@ -1,16 +1,6 @@
 using UnityEngine;
 
+// 버튼 효과음용 AudioSource 풀의 타입 키로 쓰는 마커 컴포넌트
 public class ButtonSoundObject : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

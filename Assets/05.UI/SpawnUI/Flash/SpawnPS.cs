@@ -1,16 +1,6 @@
 using UnityEngine;
 
+// 성공 지점(펄스) 생성 이펙트 풀의 타입 키로 쓰는 마커 컴포넌트
 public class SpawnPS : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

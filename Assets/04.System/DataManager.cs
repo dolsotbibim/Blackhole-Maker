@@ -1,10 +1,8 @@
-using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
-using UnityEngine.UI.Extensions.ColorPicker;
 
 public class DataManager : MonoBehaviour
 {
@@ -89,7 +87,7 @@ public class DataManager : MonoBehaviour
         {
             string name = componentName[i];
 
-            // ÀÎµ¦½º ¾ÈÀü È®ÀÎ
+            // ì¸ë±ìŠ¤ ì•ˆì „ í™•ì¸
             if (i >= Levels.Length) break;
             int level = int.Parse(Levels[i].ToString());
 
@@ -130,8 +128,8 @@ public class DataManager : MonoBehaviour
         bool FullScreen = DataManager.GetIntData("FullScreen", 1) == 0 ? false : true;
         PlayerPrefs.DeleteAll();
         DataManager.SetIntData("Resolution", Resolution);
-        DataManager.GetFloatData("BGMVolume", BGM);
-        DataManager.GetFloatData("SFXVolume", SFX);
+        DataManager.SetFloatData("BGMVolume", BGM);
+        DataManager.SetFloatData("SFXVolume", SFX);
         DataManager.SetIntData("FullScreen", FullScreen == true ? 1 : 0);
     }
 

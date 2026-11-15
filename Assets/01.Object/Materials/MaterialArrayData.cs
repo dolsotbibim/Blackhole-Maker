@@ -2,30 +2,30 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-// [Serializable] ¼Ó¼ºÀ» °¡Áø ·¡ÆÛ Å¬·¡½º.
-// ÀÌ Å¬·¡½º°¡ ÀÎ½ºÆåÅÍÀÇ "Ä­ ÇÏ³ª(Pair)" ¿ªÇÒÀ» ÇÏ¸ç, Mesh¿Í Material ¹è¿­À» ¹­½À´Ï´Ù.
+// [Serializable] ì†ì„±ì„ ê°€ì§„ ë˜í¼ í´ë˜ìŠ¤.
+// ì´ í´ë˜ìŠ¤ê°€ ì¸ìŠ¤í™í„°ì˜ "ì¹¸ í•˜ë‚˜(Pair)" ì—­í• ì„ í•˜ë©°, Meshì™€ Material ë°°ì—´ì„ ë¬¶ìŠµë‹ˆë‹¤.
 [Serializable]
 public class MeshMaterialPair
 {
-    // Ä­(Pair) ´ç ÇÏ³ªÀÇ Mesh
+    // ì¹¸(Pair) ë‹¹ í•˜ë‚˜ì˜ Mesh
     public Mesh mesh;
 
-    // Ä­(Pair) ´ç N°³ÀÇ Material
+    // ì¹¸(Pair) ë‹¹ Nê°œì˜ Material
     public Material[] materials;
 }
 
-// »ç¿ëÀÚ ¿äÃ»¿¡ µû¶ó Å¬·¡½º ÀÌ¸§°ú ¸Ş´º ÀÌ¸§À» À¯ÁöÇÕ´Ï´Ù.
+// ì‚¬ìš©ì ìš”ì²­ì— ë”°ë¼ í´ë˜ìŠ¤ ì´ë¦„ê³¼ ë©”ë‰´ ì´ë¦„ì„ ìœ ì§€í•©ë‹ˆë‹¤.
 [CreateAssetMenu(fileName = "MaterialArrayData", menuName = "Custom Data/Material Array")]
 public class MaterialArrayData : ScriptableObject
 {
-    // Mesh¿Í Material ¹è¿­À» ¹­Àº Pair ¸®½ºÆ®.
-    // List<MeshMaterialPair>°¡ "Ä­ ÇÏ³ª¿¡ Mesh, Material N°³"ÀÇ ¹è¿­ ¿ªÇÒÀ» ÇÕ´Ï´Ù.
+    // Meshì™€ Material ë°°ì—´ì„ ë¬¶ì€ Pair ë¦¬ìŠ¤íŠ¸.
+    // List<MeshMaterialPair>ê°€ "ì¹¸ í•˜ë‚˜ì— Mesh, Material Nê°œ"ì˜ ë°°ì—´ ì—­í• ì„ í•©ë‹ˆë‹¤.
     public List<MeshMaterialPair> pairs = new List<MeshMaterialPair>();
 
-    // --- (¿É¼Ç) Á¢±ÙÀÚ ¿¹½Ã ---
+    // --- (ì˜µì…˜) ì ‘ê·¼ì ì˜ˆì‹œ ---
 
     /// <summary>
-    /// ÁöÁ¤µÈ ÀÎµ¦½ºÀÇ Mesh¸¦ °¡Á®¿É´Ï´Ù.
+    /// ì§€ì •ëœ ì¸ë±ìŠ¤ì˜ Meshë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
     /// </summary>
     public Mesh GetMesh(int pairIndex)
     {
@@ -38,7 +38,7 @@ public class MaterialArrayData : ScriptableObject
     }
 
     /// <summary>
-    /// ÁöÁ¤µÈ ÀÎµ¦½ºÀÇ Material ¹è¿­¿¡¼­ Æ¯Á¤ MaterialÀ» °¡Á®¿É´Ï´Ù.
+    /// ì§€ì •ëœ ì¸ë±ìŠ¤ì˜ Material ë°°ì—´ì—ì„œ íŠ¹ì • Materialì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
     /// </summary>
     public Material GetMaterial(int pairIndex, int materialIndex)
     {

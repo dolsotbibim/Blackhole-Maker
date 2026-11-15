@@ -205,6 +205,7 @@ public class ObjetManager : MonoBehaviour
         InitialSetting();
     }
     public (Objet Item1, Objet Item2) objets;
+    private bool AllObjetMaxed = false;
     public void GetObjet()
     {
         (string, Color, Color) GetColorsByType(string type)
@@ -242,7 +243,15 @@ public class ObjetManager : MonoBehaviour
             mat.SetColor("_Color2", color2);
         }
 
-        objets = GetRandomObjet();
+        (Objet, Objet) next = GetRandomObjet();
+        if (next.Item1 == null || next.Item2 == null)
+        {
+            // 모든 오브제가 최대 레벨이면 더 뽑을 것이 없으므로 선택을 막는다
+            AllObjetMaxed = true;
+            SelectButton.interactable = false;
+            return;
+        }
+        objets = next;
         NewObjet1Slot.material = new Material(Mats[objets.Item1.level]);
         NewObjet2Slot.material = new Material(Mats[objets.Item2.level]);
         OldObjetSlot.material = new Material(Mats[LastSelectedObjet != null ? LastSelectedObjet.level - 1 : 0]);
@@ -399,7 +408,7 @@ public class ObjetManager : MonoBehaviour
     public RectTransform CosmicOre;
     public void SelectEnd()
     {
-        if(int.Parse(Cost.text) > CosmicGage.Point)
+        if(AllObjetMaxed || int.Parse(Cost.text) > CosmicGage.Point)
         {
             return;
         }
@@ -478,7 +487,7 @@ public class ObjetManager : MonoBehaviour
         Slot.materialForRendering.SetFloat("_Brightness", 1.25f);
         image.materialForRendering.SetFloat("_Brightness", 1.25f);
         GetObjet();
-        SelectButton.interactable = true;
+        SelectButton.interactable = !AllObjetMaxed;
 
         NewObjet1.DOFade(1, 1);
         NewObjet2.DOFade(1, 1);

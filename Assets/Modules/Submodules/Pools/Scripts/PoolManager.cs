@@ -63,7 +63,7 @@ namespace Redcode.Pools
             {
                 if (poolData.Component == null)
                 {
-                    Debug.LogError($"PoolManager: '{poolData.Name}'ÀÇ Component°¡ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+                    Debug.LogError($"PoolManager: '{poolData.Name}'ì˜ Componentê°€ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
                     continue;
                 }
                 var poolType = genericPoolType.MakeGenericType(poolData.Component.GetType());

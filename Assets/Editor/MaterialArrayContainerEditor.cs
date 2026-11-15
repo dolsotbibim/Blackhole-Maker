@@ -2,15 +2,15 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 
-// MaterialArrayData Å¬·¡½º¿¡ CustomEditor Àû¿ë
+// MaterialArrayData í´ë˜ìŠ¤ì— CustomEditor ì ìš©
 [CustomEditor(typeof(MaterialArrayData))]
 public class MaterialArrayDataEditor : Editor
 {
-    private SerializedProperty pairsProp; // List<MeshMaterialPair> ¼Ó¼º
+    private SerializedProperty pairsProp; // List<MeshMaterialPair> ì†ì„±
 
     private void OnEnable()
     {
-        // "pairs" ÇÊµå¸¦ Ã£¾Æ ¿¬°áÇÕ´Ï´Ù.
+        // "pairs" í•„ë“œë¥¼ ì°¾ì•„ ì—°ê²°í•©ë‹ˆë‹¤.
         pairsProp = serializedObject.FindProperty("pairs");
     }
 
@@ -18,35 +18,35 @@ public class MaterialArrayDataEditor : Editor
     {
         serializedObject.Update();
 
-        // List ÀÚÃ¼¸¦ À¯´ÏÆ¼ ½ºÅ¸ÀÏ·Î ±×¸³´Ï´Ù.
+        // List ìì²´ë¥¼ ìœ ë‹ˆí‹° ìŠ¤íƒ€ì¼ë¡œ ê·¸ë¦½ë‹ˆë‹¤.
         EditorGUILayout.PropertyField(pairsProp, new GUIContent("Mesh & Material Pairs"), true);
 
-        // --- °¢ ¿ä¼Ò(Pair)ÀÇ ³»¿ë Ä¿½ºÅÒ ±×¸®±â ---
+        // --- ê° ìš”ì†Œ(Pair)ì˜ ë‚´ìš© ì»¤ìŠ¤í…€ ê·¸ë¦¬ê¸° ---
 
         for (int i = 0; i < pairsProp.arraySize; i++)
         {
             SerializedProperty pairProp = pairsProp.GetArrayElementAtIndex(i);
 
-            // Mesh¿Í Materials ¼Ó¼ºÀ» °¡Á®¿É´Ï´Ù.
+            // Meshì™€ Materials ì†ì„±ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
             SerializedProperty meshProp = pairProp.FindPropertyRelative("mesh");
             SerializedProperty materialsProp = pairProp.FindPropertyRelative("materials");
 
-            // Çì´õ: Mesh ÀÌ¸§°ú Material °³¼ö¸¦ Ç¥½ÃÇÏ¿© ¸íÈ®ÇÏ°Ô ±¸ºĞÇÕ´Ï´Ù.
+            // í—¤ë”: Mesh ì´ë¦„ê³¼ Material ê°œìˆ˜ë¥¼ í‘œì‹œí•˜ì—¬ ëª…í™•í•˜ê²Œ êµ¬ë¶„í•©ë‹ˆë‹¤.
             string meshName = meshProp.objectReferenceValue ? meshProp.objectReferenceValue.name : "None";
             string header = $"Pair {i} | Mesh: {meshName} (Materials: {materialsProp.arraySize})";
 
-            // Foldout ¿µ¿ªÀ» ±×¸³´Ï´Ù.
-            // (isExpanded´Â SerializedProperty¸¦ ÅëÇØ Áö¼Ó¼ºÀ» °¡Áı´Ï´Ù)
+            // Foldout ì˜ì—­ì„ ê·¸ë¦½ë‹ˆë‹¤.
+            // (isExpandedëŠ” SerializedPropertyë¥¼ í†µí•´ ì§€ì†ì„±ì„ ê°€ì§‘ë‹ˆë‹¤)
             materialsProp.isExpanded = EditorGUILayout.Foldout(materialsProp.isExpanded, header, true);
 
             if (materialsProp.isExpanded)
             {
                 EditorGUI.indentLevel++;
 
-                // Mesh ÇÊµå ±×¸®±â
+                // Mesh í•„ë“œ ê·¸ë¦¬ê¸°
                 EditorGUILayout.PropertyField(meshProp, new GUIContent("Mesh Object"));
 
-                // Materials ¹è¿­ ÇÊµå ±×¸®±â
+                // Materials ë°°ì—´ í•„ë“œ ê·¸ë¦¬ê¸°
                 EditorGUILayout.PropertyField(materialsProp, new GUIContent("Materials"), true);
 
                 EditorGUI.indentLevel--;
@@ -54,7 +54,7 @@ public class MaterialArrayDataEditor : Editor
             EditorGUILayout.Space(5);
         }
 
-        // º¯°æ »çÇ× ÀúÀå ¹× Àû¿ë
+        // ë³€ê²½ ì‚¬í•­ ì €ì¥ ë° ì ìš©
         serializedObject.ApplyModifiedProperties();
     }
 }

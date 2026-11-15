@@ -39,11 +39,8 @@ public class Lid : MonoBehaviour
 
     public void UpdateLidObjects()
     {
-        for (int i = 0; i < Objects.Count; i++)
-        {
-            GameObject obj = Objects[i];
-            if (!obj.activeSelf) Objects.Remove(obj);
-        }
+        // 순회 중 Remove 하면 다음 요소를 건너뛰므로 RemoveAll로 한 번에 정리
+        Objects.RemoveAll(obj => obj == null || !obj.activeSelf);
     }
 
     private void OnTriggerStay(Collider other)

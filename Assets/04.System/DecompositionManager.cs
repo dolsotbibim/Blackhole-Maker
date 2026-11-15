@@ -17,7 +17,7 @@ public class DecompositionManager : MonoBehaviour
     private Vector3 initialPosition;
     private float currentOffset = 0f;
 
-    private bool isPointerDown = false; // Å¬¸¯ »óÅÂ ÀúÀå º¯¼ö
+    private bool isPointerDown = false; // í´ë¦­ ìƒíƒœ ì €ì¥ ë³€ìˆ˜
 
     void Start()
     {
@@ -37,7 +37,7 @@ public class DecompositionManager : MonoBehaviour
     {
         if (context.started)
         {
-            isPointerDown = true; // Å¬¸¯ ½ÃÀÛ
+            isPointerDown = true; // í´ë¦­ ì‹œì‘
             if (returnRoutine != null)
             {
                 StopCoroutine(returnRoutine);
@@ -47,7 +47,7 @@ public class DecompositionManager : MonoBehaviour
         }
         else if (context.canceled)
         {
-            isPointerDown = false; // Å¬¸¯ ÇØÁ¦
+            isPointerDown = false; // í´ë¦­ í•´ì œ
             if (flaskInstance != null)
             {
                 if (returnRoutine != null) StopCoroutine(returnRoutine);
@@ -102,7 +102,7 @@ public class DecompositionManager : MonoBehaviour
 
     public void OnDrag(InputAction.CallbackContext context)
     {
-        // isPointerDownÀÌ trueÀÏ ¶§¸¸ (¸¶¿ì½º¸¦ ´©¸£°í ÀÖÀ» ¶§¸¸) ÀÌµ¿ ¼öÇà
+        // isPointerDownì´ trueì¼ ë•Œë§Œ (ë§ˆìš°ìŠ¤ë¥¼ ëˆ„ë¥´ê³  ìˆì„ ë•Œë§Œ) ì´ë™ ìˆ˜í–‰
         if (isPointerDown && context.performed && flaskInstance != null)
         {
             moveLimit = Flask.Instance.CurrentScale * 0.25f;

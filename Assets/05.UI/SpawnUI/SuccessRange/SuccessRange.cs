@@ -1,16 +1,6 @@
 using UnityEngine;
 
+// 타이밍 바의 성공 구간 UI 풀의 타입 키로 쓰는 마커 컴포넌트
 public class SuccessRange : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

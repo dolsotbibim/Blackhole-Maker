@@ -2,7 +2,6 @@ using UnityEngine;
 using Redcode.Pools;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
 
 public class SoundManager : MonoBehaviour
 {
@@ -86,7 +85,7 @@ public class SoundManager : MonoBehaviour
         ButtonSoundObject SoundObject = poolManager.GetFromPool<ButtonSoundObject>();
         AudioSource AudioSource = SoundObject.GetComponent<AudioSource>();
         AudioSource.clip = SFX[index];
-        AudioSource.volume = SFXSoundVolume;
+        AudioSource.volume = SFXSoundVolume / 100f;
 
         AudioSource.Play();
         buttonSoundObjects.Add(SoundObject);
