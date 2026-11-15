@@ -7,9 +7,9 @@
 
 **[English](#english)** | **[한국어](#korean)**
 
-| Early game | Late game |
-| :---: | :---: |
-| ![Timing spawn](docs/images/timing.gif) | ![Fever mode](docs/images/fever.gif) |
+| Early game | Late game | Augment shop |
+| :---: | :---: | :---: |
+| ![Timing spawn](docs/images/timing.gif) | ![Fever mode](docs/images/fever.gif) | <img alt="Augment shop" src="https://github.com/user-attachments/assets/f8ba6a8a-f71f-4d71-943d-2198a3bbae18" /> |
 
 <br>
 
